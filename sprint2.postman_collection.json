@@ -1,0 +1,448 @@
+{
+	"info": {
+		"_postman_id": "e1a3519e-ce46-4d66-8a5f-21f05c774de3",
+		"name": "sprint2",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://157.245.27.101:5000/api/v1/users"
+					},
+					"response": []
+				},
+				{
+					"name": "User by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://157.245.27.101:5000/api/v1/user/1"
+					},
+					"response": []
+				},
+				{
+					"name": "User by id",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"phone\": \"+421 940 123456\",\r\n    \"user_name\": \"Johny English\",\r\n    \"password\": \"secret\",\r\n    \"time_account\": 10\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://157.245.27.101:5000/api/v1/user/1"
+					},
+					"response": []
+				},
+				{
+					"name": "User by id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "http://157.245.27.101:5000/api/v1/user/1"
+					},
+					"response": []
+				},
+				{
+					"name": "User Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"phone\": \"+421 940 123460\",\r\n    \"password\": \"mojpassword\",\r\n    \"password_val\": \"mojpassword\",\r\n    \"user_name\": \"njo2\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://157.245.27.101:5000/api/v1/user-create"
+					},
+					"response": []
+				},
+				{
+					"name": "User Set Password",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\": \"Janko Hrasko\",\r\n    \"password_val\": \"Janko Hrasko\" \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://157.245.27.101:5000/api/v1/user/1/set-password"
+					},
+					"response": []
+				},
+				{
+					"name": "User Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"phone\": \"+421 905 111222\",\r\n    \"password\": \"Janko Hrasko\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://157.245.27.101:5000/api/v1/user/login"
+					},
+					"response": []
+				},
+				{
+					"name": "User Logout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": "http://157.245.27.101:5000/api/v1/user/logout"
+					},
+					"response": []
+				},
+				{
+					"name": "User Profile",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://157.245.27.101:5000/api/v1/user/profile"
+					},
+					"response": []
+				},
+				{
+					"name": "User Services",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://157.245.27.101:5000/api/v1/user/services"
+					},
+					"response": []
+				},
+				{
+					"name": "User by time_account",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://157.245.27.101:5000/api/v1/users?field=time_account&sort=desc",
+							"protocol": "http",
+							"host": [
+								"157",
+								"245",
+								"27",
+								"101"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"users"
+							],
+							"query": [
+								{
+									"key": "field",
+									"value": "time_account"
+								},
+								{
+									"key": "sort",
+									"value": "desc"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User History Log",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://157.245.27.101:5000/api/v1/user/history-log"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Services",
+			"item": [
+				{
+					"name": "Services",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://157.245.27.101:5000/api/v1/services"
+					},
+					"response": []
+				},
+				{
+					"name": "Services by avg_rating",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://157.245.27.101:5000/api/v1/services?field=avg_rating&sort=desc",
+							"protocol": "http",
+							"host": [
+								"157",
+								"245",
+								"27",
+								"101"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"services"
+							],
+							"query": [
+								{
+									"key": "field",
+									"value": "avg_rating"
+								},
+								{
+									"key": "sort",
+									"value": "desc"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Service by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://157.245.27.101:5000/api/v1/service/1"
+					},
+					"response": []
+				},
+				{
+					"name": "Service by id",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user_id\": 2,\r\n    \"title\": \"Toto som zmenil\",\r\n    \"estimate\": \"1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://157.245.27.101:5000/api/v1/service/1"
+					},
+					"response": []
+				},
+				{
+					"name": "Service by id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": "http://157.245.27.101:5000/api/v1/service/1"
+					},
+					"response": []
+				},
+				{
+					"name": "Service Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user_id\": 1,\r\n    \"title\": \"Random title\",\r\n    \"estimate\": \"1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://157.245.27.101:5000/api/v1/service-create"
+					},
+					"response": []
+				},
+				{
+					"name": "Service Search",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://157.245.27.101:5000/api/v1/service-search?ord=asc&field=title&s=tit",
+							"protocol": "http",
+							"host": [
+								"157",
+								"245",
+								"27",
+								"101"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"service-search"
+							],
+							"query": [
+								{
+									"key": "ord",
+									"value": "asc"
+								},
+								{
+									"key": "field",
+									"value": "title"
+								},
+								{
+									"key": "s",
+									"value": "tit"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Service by User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://157.245.27.101:5000/api/v1/services-user/1"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Serviceregister",
+			"item": [
+				{
+					"name": "Serviceregister",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://157.245.27.101:5000/api/v1/serviceregister"
+					},
+					"response": []
+				},
+				{
+					"name": "Serviceregister by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://157.245.27.101:5000/api/v1/serviceregister/1"
+					},
+					"response": []
+				},
+				{
+					"name": "Serviceregister by id",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"service_id\": 1,\r\n    \"customer_id\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://157.245.27.101:5000/api/v1/serviceregister/1"
+					},
+					"response": []
+				},
+				{
+					"name": "Serviceregister by id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "http://157.245.27.101:5000/api/v1/serviceregister/1"
+					},
+					"response": []
+				},
+				{
+					"name": "Serviceregister Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"service_id\": 1,\r\n    \"consumer_id\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://157.245.27.101:5000/api/v1/serviceregister-create"
+					},
+					"response": []
+				},
+				{
+					"name": "Serviceregister Finish",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://157.245.27.101:5000/api/v1/serviceregister/1/5/"
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": {
+			"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY1MjA5NjM2MiwianRpIjoiNWJmMTZkNGMtMzkxOS00YmM4LTk0YzQtODYxY2UyMzRhZTk1IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6Iis0MjEgOTA1IDExMTIyMiIsIm5iZiI6MTY1MjA5NjM2MiwiZXhwIjoxNjUyMDk5OTYyfQ.2w1nrQLF3m2spjDTSABNZHZacgnM4cLLnvKHU6VtYNo"
+		}
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

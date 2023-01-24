@@ -1,0 +1,101 @@
+stages:
+  - build1
+  - test
+  - build2
+  - deploy
+
+build-job1:
+  stage: build1
+  tags:
+    - python
+  before_script:
+    - apk add zip
+  script:
+    - zip -r test.zip timebank requirements.txt test.py
+  artifacts:
+    paths:
+      - test.zip
+  only:
+    - main
+
+test-job:
+  stage: test
+  tags:
+    - python
+  needs: ['build-job1']
+  allow_failure: false
+  before_script:
+    - apk add unzip
+    - apk add openssh-client
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY2" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+  script:
+    - scp -o StrictHostKeyChecking=no test.zip admin@35.170.96.96:/home/admin/timebank_app
+    - ssh -o StrictHostKeyChecking=no admin@35.170.96.96 "cd /home/admin/timebank_app; unzip -o test.zip"
+    - ssh -o StrictHostKeyChecking=no admin@35.170.96.96 "cd /home/admin/timebank_app; rm test.zip"
+    - ssh -o StrictHostKeyChecking=no admin@35.170.96.96 "cd /home/admin/timebank_app; source venv/bin/activate; pip install -r requirements.txt; cd timebank/utils; python3 handle_db_test.py"
+    - ssh -o StrictHostKeyChecking=no admin@35.170.96.96 "cd /home/admin/timebank_app; source venv/bin/activate; export FLASK_APP=test.py; export FLASK_ENV=testing; python3 test.py"
+    - ssh -o StrictHostKeyChecking=no admin@35.170.96.96 "cd /home/admin/timebank_app; rm -r timebank; rm test.py requirements.txt"
+
+build-job2:
+  stage: build2
+  tags:
+    - python
+  before_script:
+    - apk add zip
+  script:
+    - zip -r public.zip timebank requirements.txt run.py
+  artifacts:
+    paths:
+      - public.zip
+  only:
+    - main
+
+deploy-to-test-job:
+  stage: deploy
+  tags:
+    - python
+  needs: ['build-job2', 'test-job']
+  before_script:
+  - apk add unzip
+  - apk add openssh-client
+  - eval $(ssh-agent -s)
+  - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+  - mkdir -p ~/.ssh
+  - chmod 700 ~/.ssh
+  script:
+    - scp -o StrictHostKeyChecking=no public.zip automation@157.245.27.101:/home/automation/timebank_app
+    - ssh -o StrictHostKeyChecking=no automation@157.245.27.101 "pkill python3 || FAILED=true"
+    - ssh -o StrictHostKeyChecking=no automation@157.245.27.101 "cd /home/automation/timebank_app; rm -r timebank || FAILED=true"
+    - ssh -o StrictHostKeyChecking=no automation@157.245.27.101 "cd /home/automation/timebank_app; rm requirements.txt run.py || FAILED=true"
+    - ssh -o StrictHostKeyChecking=no automation@157.245.27.101 "cd /home/automation/timebank_app; unzip -o public.zip"
+    - ssh -o StrictHostKeyChecking=no automation@157.245.27.101 "cd /home/automation/timebank_app; rm public.zip"
+    - ssh -o StrictHostKeyChecking=no automation@157.245.27.101 "cd /home/automation/timebank_app; source venv/bin/activate; pip install -r requirements.txt"
+    - ssh -o StrictHostKeyChecking=no automation@157.245.27.101 "cd /home/automation/timebank_app; source venv/bin/activate; export FLASK_APP=run.py; export FLASK_ENV=development; screen -m -d python3 run.py"
+    - echo "Build for testing finished"
+
+deploy-to-prod-job:
+  stage: deploy
+  tags:
+    - python
+  needs: ['deploy-to-test-job', 'build-job2', 'test-job']
+  before_script:
+  - apk add unzip
+  - apk add openssh-client
+  - eval $(ssh-agent -s)
+  - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+  - mkdir -p ~/.ssh
+  - chmod 700 ~/.ssh
+  when: manual
+  script:
+    - scp -o StrictHostKeyChecking=no public.zip automation@157.230.79.85:/home/automation/timebank_app
+    - ssh -o StrictHostKeyChecking=no automation@157.230.79.85 "pkill python3 || FAILED=true"
+    - ssh -o StrictHostKeyChecking=no automation@157.230.79.85 "cd /home/automation/timebank_app; rm -r timebank || FAILED=true"
+    - ssh -o StrictHostKeyChecking=no automation@157.230.79.85 "cd /home/automation/timebank_app; rm requirements.txt run.py  || FAILED=true"
+    - ssh -o StrictHostKeyChecking=no automation@157.230.79.85 "cd /home/automation/timebank_app; unzip -o public.zip"
+    - ssh -o StrictHostKeyChecking=no automation@157.230.79.85 "cd /home/automation/timebank_app; rm public.zip"
+    - ssh -o StrictHostKeyChecking=no automation@157.230.79.85 "cd /home/automation/timebank_app; source venv/bin/activate; pip install -r requirements.txt"
+    - ssh -o StrictHostKeyChecking=no automation@157.230.79.85 "cd /home/automation/timebank_app; source venv/bin/activate; export FLASK_APP=run.py; screen -m -d python3 run.py"
+    - echo "Building for production finished"
